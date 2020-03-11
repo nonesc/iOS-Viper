@@ -9,18 +9,18 @@
 import UIKit
 class HomeViewWireFrame {
 
-    class func createHome() -> UIViewController {
-        let navController = HomeViewWireFrame.mainStoryBoard.instantiateViewController(withIdentifier: "HOME_CONTROLLER")
-        if let homeVC = navController.children.first as? HomeView {
+    class func createHome() -> HomeView {
+        
+        if let homeVC = HomeViewWireFrame.mainStoryBoard.instantiateViewController(withIdentifier: "HOME_CONTROLLER") as? HomeView {
             let presenter: HomeViewPresenterProtocol & HomeViewInteractorOutputsProtocol = HomeViewPresenter()
             let interactor: HomeViewInteractorProtocol = HomeViewInteractor()
             homeVC.presenter = presenter
             presenter.interactor = interactor
             presenter.view = homeVC
             interactor.presenter = presenter
-            return navController
+            return homeVC
         }
-        return UIViewController()
+        return HomeView()
     }
 
     static var mainStoryBoard: UIStoryboard {
