@@ -7,16 +7,23 @@
 //
 
 import UIKit
-class HomeViewWireFrame {
+
+protocol HomeViewWireFrameProtocol {
+    func onGoToFeedDetail(feed: Feed)
+}
+
+class HomeViewWireFrame: HomeViewWireFrameProtocol {
 
     class func createHome() -> HomeView {
         
         if let homeVC = HomeViewWireFrame.mainStoryBoard.instantiateViewController(withIdentifier: "HOME_CONTROLLER") as? HomeView {
             let presenter: HomeViewPresenterProtocol & HomeViewInteractorOutputsProtocol = HomeViewPresenter()
             let interactor: HomeViewInteractorProtocol = HomeViewInteractor()
+            let router: HomeViewWireFrameProtocol = HomeViewWireFrame()
             homeVC.presenter = presenter
             presenter.interactor = interactor
             presenter.view = homeVC
+            presenter.router = router
             interactor.presenter = presenter
             return homeVC
         }
@@ -25,5 +32,9 @@ class HomeViewWireFrame {
 
     static var mainStoryBoard: UIStoryboard {
         return UIStoryboard(name: "Main", bundle: Bundle.main)
+    }
+    
+    func onGoToFeedDetail(feed: Feed) {
+        print(feed.name)
     }
 }

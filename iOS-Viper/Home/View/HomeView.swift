@@ -54,10 +54,17 @@ extension HomeView: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return feed.count
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let feed = self.feed[indexPath.row]
+        presenter?.onSelectFeed(feed: feed)
+    }
 }
 
 protocol HomeViewPresenterProtocol: class {
     var view: HomeViewProtocol? { get set }
     var interactor: HomeViewInteractorProtocol? { get set }
+    var router: HomeViewWireFrameProtocol? { get set }
     func onViewDidLoad()
+    func onSelectFeed(feed: Feed)
 }
